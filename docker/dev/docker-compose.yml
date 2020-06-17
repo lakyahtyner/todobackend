@@ -27,7 +27,6 @@ services:
     volumes:
       - ../volumes/tmp/cache:/cache
       - ../volumes/build:/build
-      - ../volumes/target:/wheelhouse
     entrypoint: "entrypoint.sh"
     command: ["pip", "wheel", "--no-index", "-f /build", "."]
 
@@ -42,8 +41,6 @@ services:
       PROBE_HOST: "db"
       PROBE_PORT: "3306"
     command: ["probe.yml"]
-    volumes:
-      - ../../ansible/:/ansible/
     networks:
       db:
 

@@ -22,13 +22,24 @@ services:
     networks:
       db:
 
+  test:
+    image: jmenga/todobackend-specs
+    environment:
+      URL: http://nginx:8000/todos
+      JUNIT_REPORT_PATH: /reports/acceptance.xml
+      JUNIT_REPORT_STACK: 1
+    command: --reporter mocha-jenkins-reporter
+    networks:
+      db:
+
   nginx:
-    image: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
     ports:
       - "8000:8000"
     volumes:
       - ../volumes/www/:/var/www/todobackend
-      - ./todobackend.conf:/etc/nginx/conf.d/todobackend.conf
     networks:
       db:
 
@@ -51,8 +62,6 @@ services:
       PROBE_HOST: "db"
       PROBE_PORT: "3306"
     command: ["probe.yml"]
-    volumes:
-      - ../../ansible/:/ansible/
     networks:
       db:
 
