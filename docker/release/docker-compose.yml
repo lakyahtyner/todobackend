@@ -5,6 +5,8 @@ services:
     build:
       context: ../../
       dockerfile: docker/release/Dockerfile
+    depends_on:
+      - db
     environment:
       DJANGO_SETTINGS_MODULE: todobackend.settings.release
       MYSQL_HOST: db
@@ -24,6 +26,8 @@ services:
 
   test:
     image: jmenga/todobackend-specs
+    depends_on:
+      - nginx
     environment:
       URL: http://nginx:8000/todos
       JUNIT_REPORT_PATH: /reports/acceptance.xml
@@ -36,6 +40,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.nginx
+    depends_on:
+      - app
     ports:
       - "8000:8000"
     volumes:
