@@ -49,14 +49,6 @@ services:
     networks:
       db:
 
-  webroot:
-    build:
-      context: ../../
-      dockerfile: docker/release/Dockerfile
-    volumes:
-      - ../volumes/www/:/var/www/todobackend
-    entrypoint: "true"
-
   agent:
     image: jmenga/ansible
     build:
